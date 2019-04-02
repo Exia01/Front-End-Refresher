@@ -1,0 +1,1 @@
+Understand html structure, basics on closing and self closing tags
