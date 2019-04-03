@@ -1,0 +1,1 @@
+Understand CSS, select id, classes. Apply properties
