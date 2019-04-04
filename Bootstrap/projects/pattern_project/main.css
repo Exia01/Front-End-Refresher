@@ -1,0 +1,4 @@
+#center-header{
+    background: url("imgs/header.jpeg") center center / cover no-repeat;
+    /* center both up and down cover and no repeat */
+}
