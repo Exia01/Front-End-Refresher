@@ -1,0 +1,5 @@
+// let tag = document.getElementById("highlight")
+// let tags = document.getElementsByClassName('bolded')
+// let liTag = document.getElementsByTagName("li")
+//let tag = document.querySelector("#highlight")
+// let tags = document.querySelectorAll()
