@@ -1,0 +1,8 @@
+<p>This is an <strong>awesome</strong>paragraph</p>
+
+/select the <p> 
+let tag = document.querySelector("p")
+/ to retrieve the content
+tag.textContent
+/ alter the content 
+tag.textcontext = "blah blah blah"
