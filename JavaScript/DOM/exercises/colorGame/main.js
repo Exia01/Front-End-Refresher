@@ -1,3 +1,4 @@
+
 let numSquares = 6;
 colors = [];
 let pickedColor;
@@ -100,3 +101,13 @@ function randomColor() {
   let b = Math.floor(Math.random() * 256);
   return `rgb(${r}, ${g}, ${b})`;
 }
+
+
+
+let game = {}
+game.init = function () {
+  setUpModebuttons();
+  setUpSquares();
+  reset();
+}
+game.init()
