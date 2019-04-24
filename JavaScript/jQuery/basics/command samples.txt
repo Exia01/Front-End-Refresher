@@ -1,0 +1,30 @@
+test = $("#test"
+VM684:1 Uncaught SyntaxError: missing ) after argument list
+test = $("#test"_
+VM688:1 Uncaught SyntaxError: missing ) after argument list
+test = $("#test")
+n.fn.init [li#test, context: document, selector: "#test"]
+test = $("h1").css("color", "yellow")
+n.fn.init [h1, prevObject: n.fn.init(1), context: document, selector: "h1"]
+test.css("color", "black")
+n.fn.init [h1, prevObject: n.fn.init(1), context: document, selector: "h1"]
+let x = {
+    color:"red", 
+    background:"pink",
+    border:"2px solid purple"
+}
+undefined
+test.css(x)
+n.fn.init [h1, prevObject: n.fn.init(1), context: document, selector: "h1"]
+$("li")
+
+$("li")[3]
+<li>​…​</li>​"Google "<a href=​"https:​/​/​google.com">​Go to link​</a>​</li>​
+$("li a")
+n.fn.init [a, prevObject: n.fn.init(1), context: document, selector: "li a"]0: acontext: documentlength: 1prevObject: n.fn.init [document, context: document]0: documentcontext: documentlength: 1__proto__: Object(0)selector: "li a"__proto__: Object(0)
+$("li.a")
+n.fn.init [prevObject: n.fn.init(1), context: document, selector: "li.a"]context: documentlength: 0prevObject: n.fn.init [document, context: document]selector: "li.a"__proto__: Object(0)
+$("li")[3]
+<li>​"Google "<a href=​"https:​/​/​google.com">​Go to link​</a>​</li>​
+$("li > a")
+n.fn.init [a, prevObject: n.fn.init(1), context: document, selector: "li > a"]0: a, href: "http://127.0.0.1:5500/JavaScript/jQuery/exercise.html", ancestorOrigins: DOMStringList, origin: "http://127.0.0.1:5500", protocol: "http:", …}nextSibling: 
