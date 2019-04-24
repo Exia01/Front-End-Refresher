@@ -1,4 +1,5 @@
-colors = generateRandomColors(6);
+let numSquares = 6
+colors = generateRandomColors(numSquares);
 let pickedColor = pickColor();
 let squares = document.querySelectorAll('.square'); //all squares
 let colorDisplay = document.getElementById('color-display');
@@ -8,12 +9,12 @@ let resetButton = document.querySelector('#reset');
 let easyBtn = document.querySelector('#easy-btn');
 let hardBtn = document.querySelector('#hard-btn');
 colorDisplay.textContent = pickedColor;
-
 easyBtn.addEventListener('click', function() {
   messageDisplay.textContent = '';
   hardBtn.classList.remove('selected');
-  easyBtn.classList.add('selected');
-  colors = generateRandomColors(3);
+    easyBtn.classList.add('selected');
+    numSquares =3
+  colors = generateRandomColors(numSquares);
   pickedColor = pickColor();
   colorDisplay.textContent = pickedColor;
   for (let idx = 0; idx < squares.length; idx++) {
@@ -30,12 +31,21 @@ easyBtn.addEventListener('click', function() {
 hardBtn.addEventListener('click', function() {
   hardBtn.classList.add('selected');
   easyBtn.classList.remove('selected');
-  messageDisplay.textContent = '';
+    messageDisplay.textContent = '';
+    numSquares=6
+  colors = generateRandomColors(numSquares);
+  pickedColor = pickColor();
+  colorDisplay.textContent = pickedColor;
+  for (let idx = 0; idx < squares.length; idx++) {
+    // is there a color in array
+    squares[idx].style.backgroundColor = colors[idx];
+    squares[idx].style.display = 'block';
+  }
 });
 
 //reset button
-resetButton.addEventListener('click', function() {
-  colors = generateRandomColors(6);
+resetButton.addEventListener('click', function () {
+  colors = generateRandomColors(numSquares);
   pickedColor = pickColor();
   colorDisplay.textContent = pickedColor;
   for (let idx = 0; idx < squares.length; idx++) {
