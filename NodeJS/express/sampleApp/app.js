@@ -10,6 +10,12 @@ app.get('/bye', (req,res) => { //request, response
 app.get('/dog', (req,res) => { //request, response
     res.send("Meow!!")
 })
+app.get('/test/:testing', (req,res) => { //request, response
+    res.send("Catch All !")
+})
+app.get('/*', (req,res) => { //request, response
+    res.send("Catch All !")
+})
 //goorm ide app.listen(process.evn.PORT, process.env.IP)
 app.listen(8000,()=> {
     console.log("Listening in port 8000")
