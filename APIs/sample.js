@@ -72,12 +72,13 @@ const sample3 = () => {
 // sample3();
 
 const AsyncGetActivity = async () => {
-  const url = ('https://www.boredapi.com/api/activity?participants=3')
+  const url = ('https://www.boredapi.com/api/activity?participants=1')
   try {
     // this parse may fail
     const response = (await axios.get(url));
     const data = response.data;
     console.log(data);
+    console.log(`"The activity today is..... \n${data.activity}"`)
   } catch (err) {
     console.log(err);
   }
