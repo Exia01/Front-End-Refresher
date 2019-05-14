@@ -11,12 +11,12 @@ let campgrounds = [
   },
   {
     name: 'Schaols',
-    image: 'https://farm9.staticflickr.com/8899/29172630696_383da1bbe1_b.jpg'
+    image: 'https://farm1.staticflickr.com/661/21678833820_05b6916c70_b.jpg'
   },
   {
     name: 'Seekant',
     image: 'https://farm1.staticflickr.com/246/452757111_590bd9fd7c_b.jpg'
-  }
+  },
 ];
 
 /* Exporting function which takes in the app (server.js :ln 10) handles all the requests */
