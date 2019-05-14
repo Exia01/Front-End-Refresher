@@ -1,0 +1,112 @@
+
+> show dbs
+admin      0.000GB
+config     0.000GB
+local      0.000GB
+mern-data  0.000GB
+merntest   0.000GB
+movies     0.000GB
+> use demo
+switched to db demo
+> db.dogs.insert()
+2019-05-13T21:20:43.063-0400 E QUERY    [js] Error: no object passed to insert! :
+DBCollection.prototype.insert@src/mongo/shell/collection.js:275:1
+@(shell):1:1
+> show dbs
+admin      0.000GB
+config     0.000GB
+local      0.000GB
+mern-data  0.000GB
+merntest   0.000GB
+movies     0.000GB
+> use demo
+switched to db demo
+> show dbs
+admin      0.000GB
+config     0.000GB
+local      0.000GB
+mern-data  0.000GB
+merntest   0.000GB
+movies     0.000GB
+> use demo
+switched to db demo
+> db.dogs.insert({name:"Rusty", breed:"Mutt"})
+WriteResult({ "nInserted" : 1 })
+> show collections
+dogs
+> find({})
+2019-05-13T21:22:20.650-0400 E QUERY    [js] ReferenceError: find is not defined :
+@(shell):1:1
+> db.dogs.find({})
+{ "_id" : ObjectId("5cda183667400115093d9dc8"), "name" : "Rusty", "breed" : "Mutt" }
+> db.dogs.insert({name:"Lucy", breed:"Mutt"})
+WriteResult({ "nInserted" : 1 })
+> db.dogs.find({})
+{ "_id" : ObjectId("5cda183667400115093d9dc8"), "name" : "Rusty", "breed" : "Mutt" }
+{ "_id" : ObjectId("5cda187467400115093d9dc9"), "name" : "Lucy", "breed" : "Mutt" }
+> db.dogs.find({}).pretty()
+{
+        "_id" : ObjectId("5cda183667400115093d9dc8"),
+        "name" : "Rusty",
+        "breed" : "Mutt"
+}
+{
+        "_id" : ObjectId("5cda187467400115093d9dc9"),
+        "name" : "Lucy",
+        "breed" : "Mutt"
+}
+> db.dogs.find({name:"Mutt"}).pretty()
+> db.dogs.find({name:"Rusty"}).pretty()
+{
+        "_id" : ObjectId("5cda183667400115093d9dc8"),
+        "name" : "Rusty",
+        "breed" : "Mutt"
+}
+> db.dogs.insert({name:"Lulu", breed:"Poodle"})
+WriteResult({ "nInserted" : 1 })
+> db.dogs.find({}).pretty()
+{
+        "_id" : ObjectId("5cda183667400115093d9dc8"),
+        "name" : "Rusty",
+        "breed" : "Mutt"
+}
+{
+        "_id" : ObjectId("5cda187467400115093d9dc9"),
+        "name" : "Lucy",
+        "breed" : "Mutt"
+}
+{
+        "_id" : ObjectId("5cda18c867400115093d9dca"),
+        "name" : "Lulu",
+        "breed" : "Poodle"
+}
+> db.dogs.find({breed:"Mutt"}).pretty()
+{
+        "_id" : ObjectId("5cda183667400115093d9dc8"),
+        "name" : "Rusty",
+        "breed" : "Mutt"
+}
+{
+        "_id" : ObjectId("5cda187467400115093d9dc9"),
+        "name" : "Lucy",
+        "breed" : "Mutt"
+}
+> db.dogs.update({name:"Rusty"}, {$set:{breed:"Terrier"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.dogs.find({}).pretty()
+{
+        "_id" : ObjectId("5cda183667400115093d9dc8"),
+        "name" : "Rusty",
+        "breed" : "Terrier"
+}
+{
+        "_id" : ObjectId("5cda187467400115093d9dc9"),
+        "name" : "Lucy",
+        "breed" : "Mutt"
+}
+{
+        "_id" : ObjectId("5cda18c867400115093d9dca"),
+        "name" : "Lulu",
+        "breed" : "Poodle"
+}
+>
