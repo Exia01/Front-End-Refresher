@@ -21,3 +21,4 @@ const CamgroundSchema = new Schema(
 
 /* Export MODEL -> collection name with schema*/
 const Campground = mongoose.model('Campground', CamgroundSchema);
+

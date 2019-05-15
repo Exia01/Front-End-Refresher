@@ -4,6 +4,8 @@ const favicon           = require('express-favicon')
 const bodyParser        = require('body-parser')
 const PORT              = 8000
 const mongooseConnector = require('./server/config/mongoose')
+const campRoutes        = require('./server/config/campRoutes')
+
 
 
 const app = express()
@@ -26,7 +28,7 @@ mongooseConnector.mongooseConnection().then(() => {
 });
 
 // import controller
-require('./server/config/routes')(app)
+app.use('/', campRoutes)
 
 app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`)
