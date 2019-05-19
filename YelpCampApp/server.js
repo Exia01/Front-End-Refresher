@@ -8,6 +8,7 @@ const campRoutes        = require('./server/config/campRoutes')
 
 
 
+
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -20,8 +21,8 @@ app.use(express.static(path.join(__dirname, '/client/public/assets/js')))
 
 
 //mongoose connection 
-mongooseConnector.mongooseConnection().then(() => {
-  console.log('Connected to DB');
+mongooseConnector.mongooseConnection().then((res) => {
+  console.log('Connected to DB \n');
 })
 .catch(err => {
   console.log('ERROR', err.message);

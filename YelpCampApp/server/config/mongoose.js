@@ -14,6 +14,16 @@ const mongooseConnection = async () => {
     }
   );
 };
+// const mongooseConnection = async () => {
+//   await mongoose.connect('mongodb://localhost/cats',
+//     {
+//       useNewUrlParser: true,
+//       autoReconnect: true,
+//       reconnectTries: 2,
+//       reconnectInterval: 3000
+//     }
+//   );
+// };
 
 //async file importer
 fs.readdir(models, (err, files) => {
