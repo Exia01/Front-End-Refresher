@@ -1,18 +1,47 @@
-var Campground = require('../models/CampSchema')
+const Campground = require('../models/CampSchema')
 //could implement middleware with next
 exports.campground_list = async (req, res) => {
   try {
     let camps;
     camps = await Campground.find({});
-      return res.status(200).json(camps)
+    return res.status(200).json(camps);
   } catch (err) {
     return res.status(404).json({
       error: err,
       message: 'Failed to find todo Campgrounds'
-    })
+    });
   }
-}
+};
+exports.campground_create = async (req, res) => {
+  console.log(req.body)
+  try {
+    let camp = await new Campground(req.body).save();
+    res.status(200).json(camp);
+  } catch (err) {
+    if (err.name === 'MongoError' && err.code === 11000) {
+      res.status(409).send(new MyError('Duplicate key', [err.message]));
+      // console.log(err)
+    }
+    res.status(403).json({
+      error: err,
+      message: 'Failed to create campground'
+    });
+  }
+};
 
+
+// exports.campground_list = async (req, res) => {
+//   try {
+//     let camps;
+//     camps = await Campground.find({});
+//       return res.status(200).json(camps)
+//   } catch (err) {
+//     return res.status(404).json({
+//       error: err,
+//       message: 'Failed to find todo Campgrounds'
+//     })
+//   }
+// }
 
 //   try{
 //     let campgrounds;
@@ -60,4 +89,3 @@ exports.campground_list = async (req, res) => {
 //implement: https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
 //info: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
 //separation of controller and service: https://riptutorial.com/node-js/example/32332/model-routes-controllers-services-code-structure
-

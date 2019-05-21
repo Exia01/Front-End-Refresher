@@ -5,6 +5,7 @@ const bodyParser        = require('body-parser')
 const PORT              = 8000
 const mongooseConnector = require('./server/config/mongoose')
 const campRoutes        = require('./server/config/campRoutes')
+const apiCampRoutes = require('./server/config/apiCampRoutes')
 
 
 
@@ -29,6 +30,7 @@ mongooseConnector.mongooseConnection().then((res) => {
 });
 
 // import controller
+app.use('/api', apiCampRoutes)
 app.use('/', campRoutes)
 
 app.listen(PORT, () => {

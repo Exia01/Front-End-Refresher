@@ -1,16 +1,28 @@
 // let CR = require('../controllers/CampController')
-var CR = require('../models/CampSchema')
+const Campground = require('../models/CampSchema');
 
-async function camp_list(){
-  const result = [];
-  try{
-    const data = await CR.find({})
-    return data;
+class CampService {
+  async camp_index() {
+    try {
+      const data = await Campground.find({});
+      return data;
+    } catch (e) {
+      return e;
+    }
   }
-  catch(e) {
-    return e;
-  }
+
+  async camp_new (obj){
+    try {
+      let camp = await new Campground(obj).save();
+      return camp
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send(new MyError('Duplicate key', [err.message]));
+      }
+      // console.log(err)
+      return err;
+    }
+  };
 }
-module.exports = {
-  camp_list: camp_list
-};
+
+module.exports = new CampService();
