@@ -12,11 +12,11 @@ router.get('/campgrounds', (req, res, next) => {
   campService
     .camp_index()
     .then(campgrounds => {
-      res.render('camp_listing', { campgrounds });
+      res.render('camp_index', { campgrounds });
     })
     .catch(err => {
       console.log('ERROR: ', err);
-      res.render('camp_listing', {});
+      res.render('camp_index', {});
     });
 });
 
@@ -37,9 +37,16 @@ router.get('/campgrounds/new', (req, res) => {
 });
 
 router.get('/campgrounds/:id', (req, res) => {
-  //Find the campground with the provided ID 
-  // render show template with that campground
-  res.render('camp_new');
+  campService
+    .camp_show(req)
+    .then(campground => {
+      console.log(campground)
+      res.render('camp_show', {campground: campground});
+    })
+    .catch(err => {
+      console.log('ERROR: ', err);
+      res.redirect('/campgrounds', {})
+    });
 });
 
 
