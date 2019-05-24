@@ -11,10 +11,10 @@ class CampService {
     }
   }
 
-  async camp_new (obj){
+  async camp_new(obj) {
     try {
       let camp = await new Campground(obj).save();
-      return camp
+      return camp;
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send(new MyError('Duplicate key', [err.message]));
@@ -22,7 +22,17 @@ class CampService {
       // console.log(err)
       return err;
     }
-  };
+  }
+
+  async camp_show(req) {
+    try {
+        let camp;
+        camp = await Campground.findById(req.params.id);
+        return camp;
+    } catch (err) {
+      return err
+    }
+  }
 }
 
 module.exports = new CampService();

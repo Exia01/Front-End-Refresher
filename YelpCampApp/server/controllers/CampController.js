@@ -28,6 +28,22 @@ exports.campground_create = async (req, res) => {
     });
   }
 };
+exports.campground_show = async (req, res) => {
+  console.log(req.body)
+  try {
+    let camp = await Campground.findById(req.params.id);;
+    res.status(200).json(camp);
+  } catch (err) {
+    if (err.name === 'MongoError' && err.code === 11000) {
+      res.status(409).send(new MyError('Duplicate key', [err.message]));
+      // console.log(err)
+    }
+    res.status(404).json({
+      error: err,
+      message: 'Failed to find campground'
+    });
+  }
+};
 
 
 // exports.campground_list = async (req, res) => {
