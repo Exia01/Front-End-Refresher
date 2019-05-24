@@ -1,6 +1,6 @@
 const Campground = require('../models/CampSchema')
 //could implement middleware with next
-exports.campground_list = async (req, res) => {
+exports.campground_index = async (req, res) => {
   try {
     let camps;
     camps = await Campground.find({});
@@ -8,12 +8,12 @@ exports.campground_list = async (req, res) => {
   } catch (err) {
     return res.status(404).json({
       error: err,
-      message: 'Failed to find todo Campgrounds'
+      message: 'Failed to find Campgrounds'
     });
   }
 };
 exports.campground_create = async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
     let camp = await new Campground(req.body).save();
     res.status(200).json(camp);
@@ -29,7 +29,7 @@ exports.campground_create = async (req, res) => {
   }
 };
 exports.campground_show = async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
     let camp = await Campground.findById(req.params.id);;
     res.status(200).json(camp);

@@ -5,7 +5,8 @@ const path = require('path'),
     
 
 //create round
-router.post('/campground/new', camp_controller.campground_create);
+router.get('/campgrounds/index', camp_controller.campground_index);
+router.get('/campgrounds/show/:id', camp_controller.campground_show);
 
 
 module.exports = router;

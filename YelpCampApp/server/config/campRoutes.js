@@ -40,7 +40,7 @@ router.get('/campgrounds/:id', (req, res) => {
   campService
     .camp_show(req)
     .then(campground => {
-      console.log(campground)
+      // console.log(campground)
       res.render('camp_show', {campground: campground});
     })
     .catch(err => {
