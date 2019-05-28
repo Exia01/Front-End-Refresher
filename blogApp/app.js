@@ -3,7 +3,7 @@ const bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   path = require('path'),
   expressSanitizer = require('express-sanitizer');
-  methodOverride = require('method-override')
+methodOverride = require('method-override');
 
 app = express();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -17,11 +17,11 @@ mongoose.connect(
     reconnectInterval: 3000
   }
 );
-mongoose.set('useFindAndModify', false) //fixed random deprecation warning???
+mongoose.set('useFindAndModify', false); //fixed random deprecation warning???
 
 app.set('view engine', 'ejs');
 //PUT method override
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
 // Mount express-sanitizer middleware here
 app.use(expressSanitizer());
 app.use(express.static('public'));
@@ -63,15 +63,16 @@ app.post('/blogs', function(req, res) {
   // console.log(req.body);
   // console.log('===========');
   // console.log(req.body);
-  req.body.blog.body = req.sanitize(req.body.blog.body)
-  Blog.create(req.body.blog), function(err, newBlog) {
-    if (err) {
-      res.render('new');
-    } else {
-      //then, redirect to the index
-      res.redirect('/blogs');
-    }
-  };
+  req.body.blog.body = req.sanitize(req.body.blog.body);
+  Blog.create(req.body.blog),
+    function(err, newBlog) {
+      if (err) {
+        res.render('new');
+      } else {
+        //then, redirect to the index
+        res.redirect('/blogs');
+      }
+    };
 });
 
 // SHOW ROUTE
@@ -118,6 +119,7 @@ app.delete('/blogs/:id', function(req, res) {
   //destroy blog
   Blog.findByIdAndRemove(req.params.id, function(err) {
     if (err) {
+      console.log(err)
       res.redirect('/blogs');
     } else {
       res.redirect('/blogs');
