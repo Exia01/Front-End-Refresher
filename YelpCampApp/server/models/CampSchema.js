@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-/* Define Model (Blueprint) */
+/* Define Model (Blueprint) same as mongoose.schema*/
 const CamgroundSchema = new Schema(
   {
     name: {
@@ -14,11 +14,17 @@ const CamgroundSchema = new Schema(
       type: String,
       required: [true, 'description must be at least two characters'],
       minlength: [2, 'description must be at least two characters'],
-      maxlength: [84, 'Please keep the description item under 84 characters.']
+      // maxlength: [400, 'Please keep the description item under 400 characters.']
     },
     image: {
       type: String
-    }
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+      }
+    ]
   },
   {
     timestamps: true
@@ -32,4 +38,4 @@ const CamgroundSchema = new Schema(
 //   image: 'https://farm1.staticflickr.com/217/515963182_c48a9bb10e_b.jpg'
 // });
 /* Export MODEL -> collection name with schema*/
-module.exports = mongoose.model('Campground', CamgroundSchema );
+module.exports = mongoose.model('Campground', CamgroundSchema);
