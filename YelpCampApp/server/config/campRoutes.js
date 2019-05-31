@@ -4,6 +4,8 @@ const path = require('path'),
   (camp_controller = require('../controllers/CampController.js')),
   (campService = require('../controllers/CampService.js'));
 
+
+  //Campground Routes
 router.get('/', (req, res) => {
   res.render('camp_landing');
 });
@@ -12,11 +14,11 @@ router.get('/campgrounds', (req, res, next) => {
   campService
     .camp_index()
     .then(campgrounds => {
-      res.render('camp_index', { campgrounds });
+      res.render('campgrounds/camp_index', { campgrounds });
     })
     .catch(err => {
       console.log('ERROR: ', err);
-      res.render('camp_index', {});
+      res.render('campgrounds/camp_index', {});
     });
 });
 
@@ -33,7 +35,7 @@ router.post('/campgrounds', (req, res) => {
 });
 
 router.get('/campgrounds/new', (req, res) => {
-  res.render('camp_new');
+  res.render('campgrounds/camp_new');
 });
 
 router.get('/campgrounds/:id', (req, res) => {
@@ -41,7 +43,7 @@ router.get('/campgrounds/:id', (req, res) => {
     .camp_show(req)
     .then(campground => {
       // console.log(campground)
-      res.render('camp_show', {campground: campground});
+      res.render('campgrounds/camp_show', {campground: campground});
     })
     .catch(err => {
       console.log('ERROR: ', err);
@@ -49,7 +51,32 @@ router.get('/campgrounds/:id', (req, res) => {
     });
 });
 
-
+//Comments Routes after camps because they are linked
+router.get('/campgrounds/:id/comments/new', (req, res) => {
+  campService
+    .camp_show(req)
+    .then(campground => {
+      // console.log(campground)
+      res.render('comments/comment_new', {campground: campground});
+    })
+    .catch(err => {
+      console.log('ERROR: ', err);
+      res.redirect('/campgrounds', {})
+    });
+});
+router.post('/campgrounds/:id/comments/', (req, res) => {
+  campService
+    .comment_new(req)
+    .then(campground => {
+      console.log(`After comment created: ${campground}`)
+      id = campground._id
+      res.redirect(`/campgrounds/${id}`);
+    })
+    .catch(err => {
+      console.log('ERROR: ', err);
+      res.redirect('/campgrounds')
+    });
+});
 
 //implement: https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
 //info: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes

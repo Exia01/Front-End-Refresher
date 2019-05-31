@@ -27,29 +27,12 @@ class CampService {
 
   async camp_show(req) {
     try {
-      let camp;
-      camp = await Campground.findById(req.params.id)
-        .populate('comments')
-        .exec();
-      // console.log(camp)
-      return camp;
+        let camp;
+        camp = await Campground.findById(req.params.id);
+        return camp;
     } catch (err) {
-      return err;
+      return err
     }
-  }
-
-  //Comments
-  async comment_new(req) {
-    console.log(req.body.comment)
-      try {
-        const newComment = await Comment.create(req.body.comment)
-        const camp = await Campground.findById(req.params.id)
-        let savingOp = await camp.comments.push(newComment) // returns length of array 
-        // console.log(savingOp)
-        return await camp.save()
-      } catch (err) {
-        return err;
-      }
   }
 }
 

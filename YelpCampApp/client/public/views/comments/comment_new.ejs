@@ -1,22 +1,26 @@
 <% include ../partials/header %>
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center">Add New Comment to <%= campground.name %></h1>
-        <div style="width: 30%; margin: 25px auto;">
-            <form action="/campgrounds/<%= campground._id %>/comments" method="POST">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="comment[text]" placeholder="text">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="comment[author]" placeholder="author">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
-                </div>
-            </form>
-            <a href="/campgrounds">Go Back</a>
-        </div>
-    </div>
-</div>
-<% include ../partials/footer %>
 
+    <section>
+        <div class="container my-4">
+            <h1 class="text-center my-2 mb-3">Add New Comment to <%= campground.name %></h1>
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-sm-10 col-md-6 col-lg-5">
+                    <form action="/campgrounds/<%= campground.id %>/comments" method="POST">
+                        <div class="form-group">
+                            <label for="Text">Text</label>
+                            <input type="text" class="form-control" name="comment[text]" id="" aria-describedby="" placeholder="Text">
+                        </div>
+                        <div class="form-group">
+                            <label for="Text">Author</label>
+                            <input type="text" class="form-control" name="comment[author]" id="" aria-describedby="" placeholder="Author">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Add Campground</button>
+                    </form>
+                    <a href="/campgrounds">Go Back</a>
+                </div>
+            </div>
+        </div>
+    </section>
+       
+
+<% include ../partials/footer %>
