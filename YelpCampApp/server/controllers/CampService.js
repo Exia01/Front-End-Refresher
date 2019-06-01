@@ -40,7 +40,7 @@ class CampService {
 
   //Comments
   async comment_new(req) {
-    console.log(req.body.comment)
+    // console.log(req.body.comment)
       try {
         const newComment = await Comment.create(req.body.comment)
         const camp = await Campground.findById(req.params.id)
