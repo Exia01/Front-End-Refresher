@@ -1,7 +1,7 @@
 //Seeds file to clean the DB and seed the database
 const mongoose = require('mongoose');
-const Campground = require('../models/CampSchema');
-const Comment = require('../models/CommentSchema');
+const Campground = require('../../models/CampSchema');
+const Comment = require('../../models/CommentSchema');
 
 let data = [
   {

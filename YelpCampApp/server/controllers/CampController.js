@@ -1,5 +1,13 @@
-const Campground = require('../models/CampSchema')
-//could implement middleware with next
+const Campground        = require('../models/CampSchema')
+const passport          = require('passport')
+const LocalStrategy     = require('passport-local')
+const User = require('../models/UserSchema')
+
+// passport setup
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 exports.campground_index = async (req, res) => {
   try {
     let camps;
