@@ -9,15 +9,15 @@ const path = require('path'),
 const passport          = require('passport')
 const LocalStrategy     = require('passport-local')
 const User              = require('../models/UserSchema')
-
+const userMiddleware    = require('../middleware/authUser')
   // passport setup
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+//Login Middleware
 
 
-//Auth Routes
-
+/* Auth Routes */
 //register form
 router.get('/register', (req, res) => {
   res.render('accounts/user_register');
@@ -37,7 +37,6 @@ router.post('/register', (req, res, next) => {
     })
   })
 })
-module.exports = router;
 
 //login form
 router.get('/login', (req, res) => {
@@ -50,3 +49,10 @@ router.post("/login", passport.authenticate("local", {
 }),(req, res)=>{
   
 })
+
+//Logout route
+router.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/campgrounds')
+})
+module.exports = router;
