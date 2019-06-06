@@ -30,7 +30,11 @@ app.use(
     extended: true
   })
 );
-
+//User login check middleware
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next()//without this the code block will stop
+})
 // views and static files
 app.set('views', path.join(__dirname, '/client/public/views'));
 app.use(express.static(path.join(__dirname, '/client/public/')));

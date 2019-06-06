@@ -14,7 +14,11 @@ router.get('/campgrounds', (req, res, next) => {
   campService
     .camp_index()
     .then(campgrounds => {
-      res.render('campgrounds/camp_index', { campgrounds });
+       // let obj = {
+      //   campgrounds: campgrounds,
+      //   user: req.user
+      // }
+      res.render('campgrounds/camp_index', {campgrounds:campgrounds});
     })
     .catch(err => {
       console.log('ERROR: ', err);
