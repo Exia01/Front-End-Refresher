@@ -5,6 +5,7 @@ const bodyParser        = require('body-parser');
 const PORT              = 8000;
 const mongooseConnector = require('./server/config/mongoose');
 const campRoutes        = require('./server/config/campRoutes');
+const commentRoutes        = require('./server/config/commentRoutes');
 const apiCampRoutes     = require('./server/config/apiCampRoutes')
   ;
 const authUserRoutes     = require('./server/config/userAuthRoutes')
@@ -54,6 +55,8 @@ mongooseConnector
 app.use('/api', apiCampRoutes);
 app.use('/accounts', authUserRoutes);
 app.use('/', campRoutes);
+app.use('/campgrounds/:id/comments', commentRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
