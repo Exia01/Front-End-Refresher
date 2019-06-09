@@ -6,8 +6,6 @@ const PORT              = 8000;
 const mongooseConnector = require('./server/config/mongoose');
 const campRoutes        = require('./server/config/campRoutes');
 const commentRoutes        = require('./server/config/commentRoutes');
-const apiCampRoutes     = require('./server/config/apiCampRoutes')
-  ;
 const authUserRoutes     = require('./server/config/userAuthRoutes')
   ;
 const passport          = require('passport')
@@ -52,7 +50,7 @@ mongooseConnector
   });
 
 // import controller
-app.use('/api', apiCampRoutes);
+// app.use('/api', apiCampRoutes);
 app.use('/accounts', authUserRoutes);
 app.use('/', campRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);

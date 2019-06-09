@@ -1,7 +1,6 @@
 const path = require('path'),
   express = require('express');
 (router = express.Router()),
-  (camp_controller = require('../controllers/CampController.js')),
   (userController = require('../controllers/AuthUserController.js')),
   (campService = require('../controllers/CampService.js')),
   (userService = require('../controllers/AuthUserService'));

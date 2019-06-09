@@ -1,12 +1,11 @@
 const express = require('express');
 (router = express.Router({mergeParams:true})),
-  (camp_controller = require('../controllers/CampController.js')),
   (campService = require('../controllers/CampService.js')),
   (userMiddleware = require('../middleware/authUser.js'));
 
 //comments new 
 router.get('/new', userMiddleware.isLoggedIn, (req, res) => {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   campService
     .camp_show(req)
     .then(campground => {
@@ -25,6 +24,7 @@ router.post('/new', userMiddleware.isLoggedIn, (req, res) => {
     .then(campground => {
       // console.log(`After comment created: ${campground}`);
       id = campground._id;
+      // console.log(id)
       res.redirect(`/campgrounds/${id}`);
     })
     .catch(err => {

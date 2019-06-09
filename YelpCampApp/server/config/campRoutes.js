@@ -1,6 +1,6 @@
 const express = require('express');
 (router = express.Router()),
-  (camp_controller = require('../controllers/CampController.js')),
+// (router = require('express-promise-router')()),
   (campService = require('../controllers/CampService.js')),
   (userMiddleware = require('../middleware/authUser.js'));
 
@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 //index
-router.get('/campgrounds', (req, res, next) => {
+router.get('/campgrounds', (req, res) => {
   campService
     .camp_index()
     .then(campgrounds => {
@@ -23,15 +23,16 @@ router.get('/campgrounds', (req, res, next) => {
 });
 
 // create form
-router.get('/campgrounds/new', (req, res) => {
+router.get('/campgrounds/new',  userMiddleware.isLoggedIn, (req, res) => {
   res.render('campgrounds/camp_new');
 });
 
 //create
-router.post('/campgrounds', (req, res) => {
+router.post('/campgrounds',userMiddleware.isLoggedIn,(req, res, next) => {
   campService
-    .camp_new(req.body)
+    .camp_new(req.body, next)
     .then(campground => {
+      console.log("From then section:" , campground)
       res.redirect('/campgrounds');
     })
     .catch(err => {

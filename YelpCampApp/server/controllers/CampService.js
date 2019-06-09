@@ -14,11 +14,12 @@ class CampService {
 
   async camp_new(obj) {
     try {
-      let camp = await new Campground(obj).save();
-      return camp;
+      let camp = await new Campground(obj);
+      let savedCamp = await camp.save();
+      return savedCamp;
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
-        res.status(409).send(new MyError('Duplicate key', [err.message]));
+        return new MyError('Duplicate key', [err.message]);
       }
       // console.log(err)
       return err;
@@ -40,16 +41,20 @@ class CampService {
 
   //Comments
   async comment_new(req) {
-    // console.log(req.body.comment)
-      try {
-        const newComment = await Comment.create(req.body.comment)
-        const camp = await Campground.findById(req.params.id)
-        let savingOp = await camp.comments.push(newComment) // returns length of array 
-        // console.log(savingOp)
-        return await camp.save()
-      } catch (err) {
-        return err;
-      }
+    try {
+      // // console.log(req.body)
+      // console.log(req.user.username, req.user._id)
+      let newComment = await Comment.create(req.body.comment);
+      newComment.author.id = req.user._id;
+      newComment.author.username = req.user.username;
+      const comment = await newComment.save();
+      const camp = await Campground.findById(req.params.id);
+      let savingOp = await camp.comments.push(comment); // returns length of array
+      // console.log(savingOp)
+      return await camp.save();
+    } catch (err) {
+      return err;
+    }
   }
 }
 

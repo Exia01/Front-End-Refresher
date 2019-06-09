@@ -20,7 +20,9 @@
                             <h4 class="card-title d-inline ml-auto">$9.00</h4>
                         </div>
                         <p class="card-text"><%=campground.description%></p>
-                        <p class="card-text"><small class="text-muted">Posted <%= campground.updatedAt.toDateString()%></small></p>
+                        <%if(campground.updatedAt){ %>
+                            <p class="card-text"><small class="text-muted">Posted <%= campground.updatedAt.toDateString()%></small></p>
+                        <%}%>
                 </div>
             </div>
             <div class="card mb-3">
@@ -33,7 +35,7 @@
                         <div class="row">
                             <div class="col-md-12 py-2">
                                 <div class="py-0 d-flex">
-                                    <strong class="d-inline"><%=comment.author%></strong>
+                                    <strong class="d-inline"><%=comment.author.username%></strong>
                                     <span class=" d-inline ml-auto">10 days ago</span>
                                 </div>
                                 <p class="card-text"><%= comment.text %></p>
