@@ -2,7 +2,8 @@ const express           = require('express');
 const path              = require('path');
 const favicon           = require('express-favicon');
 const bodyParser        = require('body-parser');
-const PORT              = 8000;
+const PORT = 8000;
+const methodOverride    = require("method-override")
 const mongooseConnector = require('./server/config/mongoose');
 const campRoutes        = require('./server/config/campRoutes');
 const commentRoutes        = require('./server/config/commentRoutes');
@@ -12,6 +13,8 @@ const passport          = require('passport')
 // const seedDB = require('./server/config/seeds')
 const app = express();
 
+//Override method
+app.use(methodOverride('_method'));
 //Passport Configuration
 app.use(
   require('express-session')({

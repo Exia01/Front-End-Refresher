@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose      = require('mongoose');
+const Schema        = mongoose.Schema;
+const Comment       = require("./CommentSchema")
 
 /* Define Model (Blueprint) same as mongoose.schema*/
-const CamgroundSchema = new Schema(
+const CampgroundSchema = new Schema(
   {
     name: {
       type: String,
@@ -38,11 +39,14 @@ const CamgroundSchema = new Schema(
   }
 );
 
-// let Campground = mongoose.model('Campground', CamgroundSchema)
-// Campground.create({
-//   name: 'Lily Meadow',
-//   description: 'A quite spot by a roomie hill with a nice Lake View',
-//   image: 'https://farm1.staticflickr.com/217/515963182_c48a9bb10e_b.jpg'
-// });
+CampgroundSchema.pre('remove', async function() {
+	await Comment.remove({
+		_id: {
+			$in: this.comments
+		}
+	});
+});
+
+
 /* Export MODEL -> collection name with schema*/
-module.exports = mongoose.model('Campground', CamgroundSchema);
+module.exports = mongoose.model('Campground', CampgroundSchema);

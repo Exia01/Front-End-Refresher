@@ -3,6 +3,7 @@ const mongoose = require('mongoose'),
   fs = require('fs'),
   models = path.join(__dirname, '../models');
 
+mongoose.set('useFindAndModify', false);
 const mongooseConnection = async () => {
   await mongoose.connect(
     'mongodb+srv://admin:NdTest-1_1@main-cluster-hpysy.mongodb.net/test?retryWrites=true',
@@ -11,7 +12,7 @@ const mongooseConnection = async () => {
       autoReconnect: true,
       reconnectTries: 2,
       reconnectInterval: 3000
-    }
+    },
   );
 };
 

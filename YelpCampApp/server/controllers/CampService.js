@@ -3,6 +3,7 @@ const Campground = require('../models/CampSchema');
 const Comment = require('../models/CommentSchema');
 
 class CampService {
+  //index
   async camp_index() {
     try {
       const data = await Campground.find({});
@@ -12,6 +13,7 @@ class CampService {
     }
   }
 
+  //new
   async camp_new(req) {
     try {
       let camp = await new Campground(req.body);
@@ -26,11 +28,12 @@ class CampService {
       if (err.name === 'MongoError' && err.code === 11000) {
         return new MyError('Duplicate key', [err.message]);
       }
-      // console.log(err)
+      console.log(err)
       return err;
     }
   }
 
+  //show
   async camp_show(req) {
     try {
       let camp;
@@ -40,6 +43,36 @@ class CampService {
       // console.log(camp)
       return camp;
     } catch (err) {
+      return err;
+    }
+  }
+  
+  //update
+  async camp_update(req) {
+    try {
+      const data = req.body.campground
+      const camp = await Campground.findByIdAndUpdate(req.params.id, data)
+      console.log("From inside the camp_update:", camp)
+      let savedCamp = await camp.save();
+      return savedCamp;
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return new MyError('Duplicate key', [err.message]);
+      }
+      // console.log(err)
+      return err;
+    }
+  }
+  async camp_delete(req) {
+    try {
+      const
+      camp = await Campground.findOneAndRemove(req.params.id)
+      return camp;
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return new MyError('Duplicate key', [err.message]);
+      }
+      // console.log(err)
       return err;
     }
   }

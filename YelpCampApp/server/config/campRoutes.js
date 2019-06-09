@@ -55,6 +55,46 @@ router.get('/campgrounds/:id', (req, res) => {
     });
 });
 
+//Edit
+router.get('/campgrounds/:id/edit', (req, res) => {
+  campService
+    .camp_show(req)
+    .then(campground => {
+      res.render('campgrounds/camp_edit', { campground: campground });
+    })
+    .catch(err => {
+      console.log('ERROR: ', err);
+      res.redirect('/campgrounds', {});
+    });
+});
+//update
+router.put('/campgrounds/:id/edit',userMiddleware.isLoggedIn,(req, res) => {
+  campService
+    .camp_update(req)
+    .then(campground => {
+      id = campground._id;
+      // console.log(id)
+      res.redirect(`/campgrounds/${id}`);
+    })
+    .catch(err => {
+      console.log('ERROR: ', err);
+      res.redirect('/campgrounds', {});
+    });
+});
+router.delete('/campgrounds/:id/delete',userMiddleware.isLoggedIn,(req, res) => {
+  campService
+    .camp_delete(req)
+    .then(campground => {
+      console.log(campground)
+      res.redirect(`/campgrounds`);
+    })
+    .catch(err => {
+      console.log('ERROR: ', err);
+      res.redirect('/campgrounds', {});
+    });
+});
+//Destroy or "Delete"
+
 module.exports = router;
 
 //implemented: https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
