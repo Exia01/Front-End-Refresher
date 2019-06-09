@@ -13,8 +13,15 @@ const CamgroundSchema = new Schema(
     description: {
       type: String,
       required: [true, 'description must be at least two characters'],
-      minlength: [2, 'description must be at least two characters'],
+      minlength: [2, 'description must be at least two characters']
       // maxlength: [400, 'Please keep the description item under 400 characters.']
+    },
+    author: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId, //storing user ID
+        ref: 'User' //what we're using to refer
+      },
+      username: String
     },
     image: {
       type: String

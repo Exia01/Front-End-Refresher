@@ -12,9 +12,14 @@ class CampService {
     }
   }
 
-  async camp_new(obj) {
+  async camp_new(req) {
     try {
-      let camp = await new Campground(obj);
+      let camp = await new Campground(req.body);
+      let author = {
+        id:req.user._id,
+        username: req.user.username,
+      }
+      camp.author = author
       let savedCamp = await camp.save();
       return savedCamp;
     } catch (err) {

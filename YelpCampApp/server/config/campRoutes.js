@@ -28,9 +28,9 @@ router.get('/campgrounds/new',  userMiddleware.isLoggedIn, (req, res) => {
 });
 
 //create
-router.post('/campgrounds',userMiddleware.isLoggedIn,(req, res, next) => {
+router.post('/campgrounds',userMiddleware.isLoggedIn,(req, res) => {
   campService
-    .camp_new(req.body, next)
+    .camp_new(req)
     .then(campground => {
       console.log("From then section:" , campground)
       res.redirect('/campgrounds');

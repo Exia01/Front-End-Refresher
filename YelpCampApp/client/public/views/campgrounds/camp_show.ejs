@@ -20,8 +20,8 @@
                             <h4 class="card-title d-inline ml-auto">$9.00</h4>
                         </div>
                         <p class="card-text"><%=campground.description%></p>
-                        <%if(campground.updatedAt){ %>
-                            <p class="card-text"><small class="text-muted">Posted <%= campground.updatedAt.toDateString()%></small></p>
+                        <%if(campground.createdAt && campground.author.username){ %>
+                            <p class="card-text"><small class="text-muted">Posted <%= campground.createdAt.toDateString()%> by <span><%= campground.author.username %></span></small></p>
                         <%}%>
                 </div>
             </div>
