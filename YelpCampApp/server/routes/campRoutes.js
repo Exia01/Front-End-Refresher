@@ -22,6 +22,9 @@ router.get('/campgrounds', (req, res) => {
       res.render('campgrounds/camp_index', { campgrounds: campgrounds });
     })
     .catch(err => {
+      if (err.name === 'MongoError' && err.code === 11000) {
+            console.log('Duplicate key', [err.message]);
+          }
       console.log('ERROR: ', err);
       res.render('campgrounds/camp_index', {});
     });
@@ -33,23 +36,20 @@ router.get('/campgrounds/new',  usrMiddleware.isLoggedIn, (req, res) => {
 });
 
 //create
-router.post('/campgrounds', usrMiddleware.isLoggedIn, async (req, res) => {
-  try {
-    let newCamp = await campService.camp_new(req)
-    }catch(err) {
-        console.log('ERROR: ', err);
-        res.redirect('/campgrounds/new');
-    }
-  // campService
-  //   .camp_new(req)
-  //   .then(campground => {
-  //     console.log("From then section:" , campground)
-  //     res.redirect('/campgrounds');
-  //   })
-  //   .catch(err => {
-  //     console.log('ERROR: ', err);
-  //     res.redirect('/campgrounds/new', {});
-  //   });
+router.post('/campgrounds', usrMiddleware.isLoggedIn, (req, res) => {
+  campService
+    .camp_new(req)
+    .then(campground => {
+      console.log("From then section:", campground)
+      res.redirect('/campgrounds');
+    })
+    .catch(err => {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        console.log('Duplicate key', [err.message]);
+      }
+      console.log('ERROR: ', err);
+      res.redirect('/campgrounds/new');
+    });
 });
 
 //show

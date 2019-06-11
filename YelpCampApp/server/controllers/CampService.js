@@ -19,20 +19,11 @@ class CampService {
       id:req.user._id,
       username: req.user.username,
     }
-    try {
       let data = req.body
-      // throw new Error("No authorization to edit")
       data.author = author
       let camp = await new Campground(req.body).save()
       newCamp = await camp.save()
-      return newCamp 
-    } catch (err) {
-      if (err.name === 'MongoError' && err.code === 11000) {
-        return new MyError('Duplicate key', [err.message]);
-      }
-      // console.log(err)
-      return err;
-    }
+      return newCamp
     // let author = {
     //   id:req.user._id,
     //   username: req.user.username,
