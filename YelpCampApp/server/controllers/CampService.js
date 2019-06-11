@@ -14,23 +14,42 @@ class CampService {
   }
 
   //new
-  async camp_new(req) {
+  async camp_new(req, res, next) {
+    let author = {
+      id:req.user._id,
+      username: req.user.username,
+    }
     try {
-      let camp = await new Campground(req.body);
-      let author = {
-        id:req.user._id,
-        username: req.user.username,
-      }
-      camp.author = author
-      let savedCamp = await camp.save();
-      return savedCamp;
+      let data = req.body
+      // throw new Error("No authorization to edit")
+      data.author = author
+      let camp = await new Campground(req.body).save()
+      newCamp = await camp.save()
+      return newCamp 
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         return new MyError('Duplicate key', [err.message]);
       }
-      console.log(err)
+      // console.log(err)
       return err;
     }
+    // let author = {
+    //   id:req.user._id,
+    //   username: req.user.username,
+    // }
+    // try {
+    //   let data = req.body
+    //   // throw new Error("No authorization to edit")
+    //   data.author = author
+    //   let camp = await new Campground(req.body).save()
+    //   return camp 
+    // } catch (err) {
+    //   if (err.name === 'MongoError' && err.code === 11000) {
+    //     return new MyError('Duplicate key', [err.message]);
+    //   }
+    //   // console.log(err)
+    //   return err;
+    // }
   }
 
   //show
@@ -52,7 +71,6 @@ class CampService {
     try {
       const data = req.body.campground
       const camp = await Campground.findByIdAndUpdate(req.params.id, data)
-      console.log("From inside the camp_update:", camp)
       let savedCamp = await camp.save();
       return savedCamp;
     } catch (err) {
@@ -95,5 +113,6 @@ class CampService {
     }
   }
 }
+
 
 module.exports = new CampService();

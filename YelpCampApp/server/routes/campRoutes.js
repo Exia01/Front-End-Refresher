@@ -1,9 +1,14 @@
 const express = require('express');
 (router = express.Router()),
 // (router = require('express-promise-router')()),
-  (campService = require('../controllers/CampService.js')),
-  (userMiddleware = require('../middleware/authUser.js'));
+  (campService = require('../controllers/CampService')),
+  (usrMiddleware = require('../middleware/authUser.js'));
 
+  // const asyncMiddleware = fn =>
+  // (req, res, next) => {
+  //   Promise.resolve(fn(req, res, next))
+  //     .catch(next);
+  // };
 //landing
 router.get('/', (req, res) => {
   res.render('camp_landing');
@@ -23,22 +28,28 @@ router.get('/campgrounds', (req, res) => {
 });
 
 // create form
-router.get('/campgrounds/new',  userMiddleware.isLoggedIn, (req, res) => {
+router.get('/campgrounds/new',  usrMiddleware.isLoggedIn, (req, res) => {
   res.render('campgrounds/camp_new');
 });
 
 //create
-router.post('/campgrounds',userMiddleware.isLoggedIn,(req, res) => {
-  campService
-    .camp_new(req)
-    .then(campground => {
-      console.log("From then section:" , campground)
-      res.redirect('/campgrounds');
-    })
-    .catch(err => {
-      console.log('ERROR: ', err);
-      res.redirect('/campgrounds/new', {});
-    });
+router.post('/campgrounds', usrMiddleware.isLoggedIn, async (req, res) => {
+  try {
+    let newCamp = await campService.camp_new(req)
+    }catch(err) {
+        console.log('ERROR: ', err);
+        res.redirect('/campgrounds/new');
+    }
+  // campService
+  //   .camp_new(req)
+  //   .then(campground => {
+  //     console.log("From then section:" , campground)
+  //     res.redirect('/campgrounds');
+  //   })
+  //   .catch(err => {
+  //     console.log('ERROR: ', err);
+  //     res.redirect('/campgrounds/new', {});
+  //   });
 });
 
 //show
@@ -56,19 +67,19 @@ router.get('/campgrounds/:id', (req, res) => {
 });
 
 //Edit
-router.get('/campgrounds/:id/edit', (req, res) => {
-  campService
-    .camp_show(req)
-    .then(campground => {
-      res.render('campgrounds/camp_edit', { campground: campground });
-    })
-    .catch(err => {
-      console.log('ERROR: ', err);
-      res.redirect('/campgrounds', {});
-    });
+router.get('/campgrounds/:id/edit', usrMiddleware.checkCampgroundOwnership,(req, res) => {
+    campService
+      .camp_show(req)
+      .then(campground => {
+        res.render('campgrounds/camp_edit', { campground: campground });
+      })
+      .catch(err => {
+        console.log('ERROR: ', err);
+        res.redirect('/campgrounds', {});
+      });
 });
 //update
-router.put('/campgrounds/:id/edit',userMiddleware.isLoggedIn,(req, res) => {
+router.put('/campgrounds/:id/edit',usrMiddleware.isLoggedIn, usrMiddleware.checkCampgroundOwnership,(req, res) => {
   campService
     .camp_update(req)
     .then(campground => {
@@ -81,7 +92,7 @@ router.put('/campgrounds/:id/edit',userMiddleware.isLoggedIn,(req, res) => {
       res.redirect('/campgrounds', {});
     });
 });
-router.delete('/campgrounds/:id/delete',userMiddleware.isLoggedIn,(req, res) => {
+router.delete('/campgrounds/:id/delete',usrMiddleware.isLoggedIn,usrMiddleware.checkCampgroundOwnership,(req, res) => {
   campService
     .camp_delete(req)
     .then(campground => {

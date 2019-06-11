@@ -5,9 +5,9 @@ const bodyParser        = require('body-parser');
 const PORT = 8000;
 const methodOverride    = require("method-override")
 const mongooseConnector = require('./server/config/mongoose');
-const campRoutes        = require('./server/config/campRoutes');
-const commentRoutes        = require('./server/config/commentRoutes');
-const authUserRoutes     = require('./server/config/userAuthRoutes')
+const campRoutes        = require('./server/routes/campRoutes');
+const commentRoutes        = require('./server/routes/commentRoutes');
+const authUserRoutes     = require('./server/routes/userAuthRoutes')
   ;
 const passport          = require('passport')
 // const seedDB = require('./server/config/seeds')

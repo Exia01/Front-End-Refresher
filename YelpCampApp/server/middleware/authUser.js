@@ -9,13 +9,32 @@
 // Login Middleware
 
 //Login Middleware
-const isLoggedIn = (req, res, next) => {
+const Campground = require('../models/CampSchema');
+var userMiddleware = {};
+userMiddleware.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
   return res.redirect('/accounts/login');
 };
 
-module.exports = {
-  isLoggedIn: isLoggedIn
-};
+userMiddleware.checkCampgroundOwnership = function(req, res, next) {
+  if(req.isAuthenticated()){
+         Campground.findById(req.params.id, function(err, foundCampground){
+            if(err){
+                res.redirect("back");
+            }  else {
+                // does user own the campground?
+             if(foundCampground.author.id.equals(req.user._id)) {
+                 next();
+             } else {
+                 console.log("nope")
+                 res.redirect("back");
+             }
+            }
+         });
+     } else {
+         res.redirect("back");
+     }
+ }
+ module.exports = userMiddleware;
