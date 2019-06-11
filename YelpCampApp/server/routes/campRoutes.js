@@ -22,9 +22,6 @@ router.get('/campgrounds', (req, res) => {
       res.render('campgrounds/camp_index', { campgrounds: campgrounds });
     })
     .catch(err => {
-      if (err.name === 'MongoError' && err.code === 11000) {
-            console.log('Duplicate key', [err.message]);
-          }
       console.log('ERROR: ', err);
       res.render('campgrounds/camp_index', {});
     });
