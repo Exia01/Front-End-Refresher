@@ -1,7 +1,12 @@
 // let CR = require('../controllers/CampController')
 const Campground = require('../models/CampSchema');
 const Comment = require('../models/CommentSchema');
-
+/* 
+======================
+Implement promise all or multiple error handling
+https://stackoverflow.com/questions/45285129/any-difference-between-await-promise-all-and-multiple-await
+====================== 
+*/
 class CampService {
   //index
   async camp_index() {
@@ -26,7 +31,7 @@ class CampService {
   //show
   async camp_show(req) {
       let camp;
-      camp = await Campground.findById(req.params.id)
+      camp = await Campground.findById(req.params._id)
         .populate('comments')
         .exec();
       // console.log(camp)
@@ -36,14 +41,14 @@ class CampService {
   //update
   async camp_update(req) {
       const data = req.body.campground
-      const camp = await Campground.findByIdAndUpdate(req.params.id, data)
+      const camp = await Campground.findByIdAndUpdate(req.params._id, data)
       let savedCamp = await camp.save();
       return savedCamp;
   }
 
   //Delete
   async camp_delete(req) {
-      const camp = await Campground.findOneAndRemove(req.params.id)
+      const camp = await Campground.findOneAndRemove(req.params._id)
       return camp;
   }
 
@@ -53,11 +58,28 @@ class CampService {
       newComment.author.id = req.user._id;
       newComment.author.username = req.user.username;
       const comment = await newComment.save();
-      const camp = await Campground.findById(req.params.id);
+      const camp = await Campground.findById(req.params._id);
       let savingOp = await camp.comments.push(comment); // returns length of array
       // console.log(savingOp)
       return await camp.save();
   }
+
+  async comment_show(req) {
+    // console.log(req.params)
+    const [camp, comment] = await Promise.all([
+      Campground.findById(req.params._id),
+      Comment.findById(req.params.comment_id)
+    ])
+    return [camp, comment]
+  }
+
+  async comment_update(req) {
+    const data = req.body.comment
+    const camp = await Comment.findByIdAndUpdate(req.params.comment_id, data)
+    let savedComment = await camp.save();
+    return savedComment;
+  }
+
 }
 
 

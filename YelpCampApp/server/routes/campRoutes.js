@@ -50,7 +50,7 @@ router.post('/campgrounds', usrMiddleware.isLoggedIn, (req, res) => {
 });
 
 //show
-router.get('/campgrounds/:id', (req, res) => {
+router.get('/campgrounds/:_id', (req, res) => {
   campService
     .camp_show(req)
     .then(campground => {
@@ -64,7 +64,7 @@ router.get('/campgrounds/:id', (req, res) => {
 });
 
 //Edit
-router.get('/campgrounds/:id/edit', usrMiddleware.checkCampgroundOwnership,(req, res) => {
+router.get('/campgrounds/:_id/edit', usrMiddleware.checkCampgroundOwnership,(req, res) => {
     campService
       .camp_show(req)
       .then(campground => {
@@ -75,8 +75,10 @@ router.get('/campgrounds/:id/edit', usrMiddleware.checkCampgroundOwnership,(req,
         res.redirect('/campgrounds', {});
       });
 });
+
+
 //update
-router.put('/campgrounds/:id/edit',usrMiddleware.isLoggedIn, usrMiddleware.checkCampgroundOwnership,(req, res) => {
+router.put('/campgrounds/:_id/edit',usrMiddleware.isLoggedIn, usrMiddleware.checkCampgroundOwnership,(req, res) => {
   campService
     .camp_update(req)
     .then(campground => {
@@ -89,7 +91,8 @@ router.put('/campgrounds/:id/edit',usrMiddleware.isLoggedIn, usrMiddleware.check
       res.redirect('/campgrounds', {});
     });
 });
-router.delete('/campgrounds/:id/delete',usrMiddleware.isLoggedIn,usrMiddleware.checkCampgroundOwnership,(req, res) => {
+
+router.delete('/campgrounds/:_id/delete',usrMiddleware.isLoggedIn,usrMiddleware.checkCampgroundOwnership,(req, res) => {
   campService
     .camp_delete(req)
     .then(campground => {

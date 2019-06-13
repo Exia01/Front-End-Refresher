@@ -56,7 +56,7 @@ mongooseConnector
 // app.use('/api', apiCampRoutes);
 app.use('/accounts', authUserRoutes);
 app.use('/', campRoutes);
-app.use('/campgrounds/:id/comments', commentRoutes);
+app.use('/campgrounds/:_id/comments', commentRoutes);
 
 
 app.listen(PORT, () => {
