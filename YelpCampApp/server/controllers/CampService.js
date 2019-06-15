@@ -80,6 +80,14 @@ class CampService {
     return savedComment;
   }
 
+
+  async comment_delete(req) {
+    console.log(req.params.comment_id)
+    const camp = await Comment.findByIdAndRemove(req.params.comment_id)
+    
+    return camp;
+  }
+
 }
 
 

@@ -1,10 +1,10 @@
 const express = require('express');
 (router = express.Router({ mergeParams: true })),
   (campService = require('../controllers/CampService.js')),
-  (userMiddleware = require('../middleware/authUser.js'));
+  (usrMware = require('../middleware/authUser.js'));
 
 //comments new
-router.get('/new', userMiddleware.isLoggedIn, (req, res) => {
+router.get('/new', usrMware.isLoggedIn, (req, res) => {
   campService
     .camp_show(req) //pull camp from db
     .then(campground => {
@@ -12,18 +12,18 @@ router.get('/new', userMiddleware.isLoggedIn, (req, res) => {
       res.render('comments/comment_new', { campground: campground });
     }).catch(err => {
       console.log('ERROR: ', err);
-      res.redirect('/campgrounds', {});
+      res.redirect('/campgrounds');
     });
 });
 
 
 //comments new
-router.post('/new', userMiddleware.isLoggedIn, (req, res) => {
+router.post('/new', usrMware.isLoggedIn, (req, res) => {
   campService
     .comment_new(req)
     .then(campground => {
       // console.log(`After comment created: ${campground}`);
-      id = campground._id;
+      let id = campground._id;
       // console.log(id)
       res.redirect(`/campgrounds/${id}`);
     }).catch(err => {
@@ -34,7 +34,7 @@ router.post('/new', userMiddleware.isLoggedIn, (req, res) => {
 
 
 //comment update form
-router.get('/:comment_id/edit', usrMiddleware.isLoggedIn, (req, res) => {
+router.get('/:comment_id/edit', usrMware.isLoggedIn, usrMware.checkCommentOwnership,(req, res) => {
   campService
     .comment_show(req)
     .then(data => {
@@ -52,7 +52,7 @@ router.get('/:comment_id/edit', usrMiddleware.isLoggedIn, (req, res) => {
 
 
 //comment update 
-router.put('/:comment_id/edit', (req, res) => {
+router.put('/:comment_id/edit', usrMware.isLoggedIn,usrMware.checkCommentOwnership,(req, res)=> {
   let id = req.params._id
     campService
       .comment_update(req)
@@ -62,10 +62,23 @@ router.put('/:comment_id/edit', (req, res) => {
       })
       .catch(err => {
         console.log('ERROR: ', err);
-        res.redirect('/campgrounds', {});
+        res.redirect('/campgrounds');
       });
 });
 
+//delete route 
+router.delete('/:comment_id/delete', usrMware.isLoggedIn, usrMware.checkCommentOwnership, (req, res) => {
+  let id = req.params._id
+    campService.comment_delete(req)
+      .then(comment => {
+        console.log(comment)
+        res.redirect(`/campgrounds/${id}`);
+      })
+      .catch(err => {
+        console.log('ERROR: ', err);
+        res.redirect(`/campgrounds/${id}`);
+      });
+});
 
 
 module.exports = router;

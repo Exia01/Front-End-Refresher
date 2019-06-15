@@ -45,7 +45,12 @@
                                     <span class=" d-inline ml-auto">10 days ago</span>
                                 </div>
                                 <p class="card-text"><%= comment.text %></p>
-                                <a class="btn btn-sm btn-warning"href="/campgrounds/<%=campground.id%>/comments/<%=comment.id%>/edit">edit</a>
+                                <%if (currentUser &&comment.author.id.equals(currentUser._id)) { %>
+                                    <a class="btn btn-sm btn-warning"href="/campgrounds/<%=campground.id%>/comments/<%=comment.id%>/edit">edit</a>
+                                    <form class="d-inline" action="/campgrounds/<%=campground.id%>/comments/<%=comment.id%>/delete?_method=DELETE" method="POST">
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                <% }%>
                             </div>
                         </div>
                         <% })%>

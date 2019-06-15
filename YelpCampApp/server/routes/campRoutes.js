@@ -95,8 +95,8 @@ router.put('/campgrounds/:_id/edit',usrMiddleware.isLoggedIn, usrMiddleware.chec
 router.delete('/campgrounds/:_id/delete',usrMiddleware.isLoggedIn,usrMiddleware.checkCampgroundOwnership,(req, res) => {
   campService
     .camp_delete(req)
-    .then(campground => {
-      console.log(campground)
+    .then(comment => {
+      // console.log(comment)
       res.redirect(`/campgrounds`);
     })
     .catch(err => {
