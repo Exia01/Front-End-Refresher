@@ -28,9 +28,11 @@ router.post('/register', (req, res, next) => {
   User.register(newUser, password, (err, user) => {
     if (err) {
       console.log(err)
-      return res.render('accounts/user_register');
+      req.flash("error", err.message)
+      return res.redirect('back');
     }
-    passport.authenticate("local")(req, res, function() {
+    passport.authenticate("local")(req, res, function () {
+      req.flash("success", `Welcome to Yelcamp, ${user.username}`)
       res.redirect('/campgrounds')
     })
   })

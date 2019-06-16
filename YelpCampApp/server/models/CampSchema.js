@@ -11,6 +11,10 @@ const CampgroundSchema = new Schema(
       minlength: [2, 'Campground must be at least two characters'],
       maxlength: [64, 'Please keep Campground item under 64 characters.']
     },
+    price: {
+      type: String,
+      default: '125',
+    },
     description: {
       type: String,
       required: [true, 'description must be at least two characters'],
