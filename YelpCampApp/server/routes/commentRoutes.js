@@ -24,6 +24,7 @@ router.post('/new', usrMware.isLoggedIn, (req, res) => {
   campService
     .comment_new(req)
     .then(campground => {
+      req.flash("success", "Successfully created comment")
       let id = campground._id;
       res.redirect(`/campgrounds/${id}`);
     }).catch(err => {
@@ -57,6 +58,7 @@ router.put('/:comment_id/edit', usrMware.isLoggedIn,usrMware.checkCommentOwnersh
     campService
       .comment_update(req)
       .then(comment => {
+        req.flash("success", "Successfully updated comment")
         res.redirect(`/campgrounds/${id}`);
       })
       .catch(err => {

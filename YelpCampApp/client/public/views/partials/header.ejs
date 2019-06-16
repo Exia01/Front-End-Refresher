@@ -37,7 +37,10 @@
                     </ul>
                 </div>
             </nav>
-            <% if (message){%>
+        </div>
+    </section>
+    <div class="container">
+     <% if (message){%>
                 <% if (message.error){%>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <%=message.error%>
@@ -54,5 +57,4 @@
                     </div>
                 <%}%>
             <%}%>
-        </div>
-    </section>
+    </div>

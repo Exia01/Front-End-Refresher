@@ -19,6 +19,7 @@ router.get('/campgrounds', (req, res) => {
   campService
   .camp_index()
   .then(campgrounds => {
+      console.log(res.locals)
       res.render('campgrounds/camp_index', { campgrounds: campgrounds });
     })
     .catch(err => {
@@ -40,11 +41,17 @@ router.post('/campgrounds', usrMiddleware.isLoggedIn, (req, res) => {
       console.log("From then section:", campground)
       res.redirect('/campgrounds');
     })
-    .catch(err => {
-      if (err.name === 'MongoError' && err.code === 11000) {
-        console.log('Duplicate key', [err.message]);
+    .catch(e => {
+      if (e.name === 'MongoError' && e.code === 11000) {
+        console.log('Duplicate key', [e.message]);
       }
-      console.log('ERROR: ', err);
+      // console.log(Object.values(e))
+      console.log(e.errors)
+  //  let obj = Object.values(e.name[1])
+  //     for (let err of obj) {
+  //       // req.flash("error", err)
+  //       console.log(err)
+  //     }
       res.redirect('/campgrounds/new');
     });
 });
@@ -59,7 +66,8 @@ router.get('/campgrounds/:_id', (req, res) => {
     })
     .catch(err => {
       console.log('ERROR: ', err);
-      res.redirect('/campgrounds', {});
+      req.flash("error", "Sorry, we could not find the campground")
+      res.redirect('/campgrounds',);
     });
 });
 
@@ -71,8 +79,9 @@ router.get('/campgrounds/:_id/edit', usrMiddleware.checkCampgroundOwnership,(req
         res.render('campgrounds/camp_edit', { campground: campground });
       })
       .catch(err => {
-        console.log('ERROR: ', err);
-        res.redirect('/campgrounds', {});
+        // console.log('ERROR: ', err.message);
+       
+        res.redirect('/campgrounds');
       });
 });
 

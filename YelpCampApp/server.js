@@ -39,6 +39,7 @@ app.use(
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.message = req.flash() //using on every route
+  // res.locals.success = req.flash("success")
   next()//without this the code block will stop
 })
 // views and static files
