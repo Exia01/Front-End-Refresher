@@ -37,7 +37,6 @@ exports.campground_create = async (req, res) => {
   }
 };
 exports.campground_show = async (req, res) => {
-  // console.log(req.body)
   try {
     let camp = await Campground.findById(req.params.id);;
     res.status(200).json(camp);

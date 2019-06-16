@@ -17,13 +17,13 @@ router.get('/', (req, res) => {
 //index
 router.get('/campgrounds', (req, res) => {
   campService
-    .camp_index()
-    .then(campgrounds => {
+  .camp_index()
+  .then(campgrounds => {
       res.render('campgrounds/camp_index', { campgrounds: campgrounds });
     })
     .catch(err => {
       console.log('ERROR: ', err);
-      res.render('campgrounds/camp_index', {});
+      res.render('campgrounds/camp_index',);
     });
 });
 

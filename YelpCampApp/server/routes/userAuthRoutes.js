@@ -1,7 +1,6 @@
 const path = require('path'),
   express = require('express');
 (router = express.Router()),
-  (userController = require('../controllers/AuthUserController.js')),
   (campService = require('../controllers/CampService.js')),
   (userService = require('../controllers/AuthUserService'));
 
@@ -39,19 +38,21 @@ router.post('/register', (req, res, next) => {
 
 //login form
 router.get('/login', (req, res) => {
-  res.render('accounts/user_login')
+  res.render('accounts/user_login',)
 })
 //login logic
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/campgrounds",
   failureRedirect:"/accounts/login",
-}),(req, res)=>{
-  
+}), (req, res) => {
+  let redirectionUrl = req.session.redirectUrl || '/campgrounds';
+  res.redirect(redirectionUrl);
 })
 
 //Logout route
 router.get('/logout', (req, res) => {
+  // req.session.destroy(); // // won't work with flash
   req.logout()
+  req.flash("success", "You've been logged out.")
   res.redirect('/campgrounds')
 })
 module.exports = router;

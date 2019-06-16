@@ -3,12 +3,14 @@ const express = require('express');
   (campService = require('../controllers/CampService.js')),
   (usrMware = require('../middleware/authUser.js'));
 
+/* could import middleware and rename the authUser.js to index.js due to it being a default. */
+
+
 //comments new
 router.get('/new', usrMware.isLoggedIn, (req, res) => {
   campService
-    .camp_show(req) //pull camp from db
+    .camp_show(req) 
     .then(campground => {
-      // console.log(campground)
       res.render('comments/comment_new', { campground: campground });
     }).catch(err => {
       console.log('ERROR: ', err);
@@ -22,9 +24,7 @@ router.post('/new', usrMware.isLoggedIn, (req, res) => {
   campService
     .comment_new(req)
     .then(campground => {
-      // console.log(`After comment created: ${campground}`);
       let id = campground._id;
-      // console.log(id)
       res.redirect(`/campgrounds/${id}`);
     }).catch(err => {
       console.log('ERROR: ', err);
@@ -57,7 +57,6 @@ router.put('/:comment_id/edit', usrMware.isLoggedIn,usrMware.checkCommentOwnersh
     campService
       .comment_update(req)
       .then(comment => {
-        console.log(comment)
         res.redirect(`/campgrounds/${id}`);
       })
       .catch(err => {
@@ -71,7 +70,7 @@ router.delete('/:comment_id/delete', usrMware.isLoggedIn, usrMware.checkCommentO
   let id = req.params._id
     campService.comment_delete(req)
       .then(comment => {
-        console.log(comment)
+        // console.log(comment)
         res.redirect(`/campgrounds/${id}`);
       })
       .catch(err => {

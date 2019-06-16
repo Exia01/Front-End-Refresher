@@ -6,12 +6,15 @@ const PORT = 8000;
 const methodOverride    = require("method-override")
 const mongooseConnector = require('./server/config/mongoose');
 const campRoutes        = require('./server/routes/campRoutes');
-const commentRoutes        = require('./server/routes/commentRoutes');
-const authUserRoutes     = require('./server/routes/userAuthRoutes')
+const commentRoutes     = require('./server/routes/commentRoutes');
+const authUserRoutes    = require('./server/routes/userAuthRoutes')
+const flash             = require('connect-flash')
   ;
 const passport          = require('passport')
 // const seedDB = require('./server/config/seeds')
 const app = express();
+
+app.use(flash())
 
 //Override method
 app.use(methodOverride('_method'));
@@ -35,6 +38,7 @@ app.use(
 //User login check middleware
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  res.locals.message = req.flash() //using on every route
   next()//without this the code block will stop
 })
 // views and static files
@@ -49,7 +53,8 @@ mongooseConnector
     // seedDB()
   })
   .catch(err => {
-    console.log('ERROR', err.message);
+    console.log(err)
+    console.log('ERROR in DB connection', err.message);
   });
 
 // import controller
