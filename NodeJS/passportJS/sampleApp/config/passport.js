@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs');
 // Load User model
 const User = require('../models/User');
 
-module.exports = function(passport) {
+//exporting function
+module.exports = function (passport) {
+  // passing passport from app.js
   passport.use(
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       // Match user
@@ -13,22 +15,25 @@ module.exports = function(passport) {
         email: email
       }).then(user => {
         if (!user) {
+          // error, user, msg
           return done(null, false, { message: 'That email is not registered' });
         }
 
         // Match password
+        //passing password and hash password 
         bcrypt.compare(password, user.password, (err, isMatch) => {
-          if (err) throw err;
+          if (err) throw err; // here be dragons
           if (isMatch) {
-            return done(null, user);
+            return done(null, user); // no error and user 
           } else {
-            return done(null, false, { message: 'Password incorrect' });
+            return done(null, false, { message: 'Password incorrect' }); //error user and msg
           }
         });
       });
     })
   );
 
+  // if authentication is successful the session will be established -->unique cookie
   passport.serializeUser(function(user, done) {
     done(null, user.id);
   });

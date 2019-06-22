@@ -8,17 +8,14 @@ const session = require('express-session');
 const app = express();
 
 // Passport Config
-require('./config/passport')(passport);
+require('./config/passport')(passport); //requiring file then passing passport
 
 // DB Config
 const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
@@ -38,7 +35,7 @@ app.use(
   })
 );
 
-// Passport middleware
+// Passport middleware after session
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -46,7 +43,7 @@ app.use(passport.session());
 app.use(flash());
 
 // Global variables
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');

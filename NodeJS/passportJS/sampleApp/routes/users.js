@@ -10,7 +10,9 @@ const { forwardAuthenticated } = require('../config/auth');
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 
 // Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
+router.get('/register', forwardAuthenticated, (req, res) =>
+  res.render('register')
+);
 
 // Register
 router.post('/register', (req, res) => {
@@ -19,6 +21,7 @@ router.post('/register', (req, res) => {
   const { name, email, password, password2 } = req.body;
   let errors = [];
 
+  // check errors
   if (!name || !email || !password || !password2) {
     errors.push({ msg: 'Please enter all fields' });
   }
@@ -39,6 +42,7 @@ router.post('/register', (req, res) => {
       password,
       password2
     });
+    //validation passed check if it exists
   } else {
     User.findOne({ email: email }).then(user => {
       if (user) {
@@ -51,16 +55,20 @@ router.post('/register', (req, res) => {
           password2
         });
       } else {
+        //no user found instantiate the user
         const newUser = new User({
+          //es6+ can just pass objs
           name,
           email,
-          password
+          password //plain password for now
         });
+        console.log(newUser);
 
+        //Hash Password
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
-            newUser.password = hash;
+            newUser.password = hash; //change the plain password
             newUser
               .save()
               .then(user => {
